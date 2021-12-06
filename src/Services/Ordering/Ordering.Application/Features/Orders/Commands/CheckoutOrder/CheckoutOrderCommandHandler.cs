@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ordering.Application.Features.Orders.Commands
+namespace Ordering.Application.Features.Orders.Commands.CheckoutOrder
 {
     public class CheckoutOrderCommandHandler : IRequestHandler<CheckoutOrderCommand, int>
     {
@@ -33,7 +33,7 @@ namespace Ordering.Application.Features.Orders.Commands
         public async Task<int> Handle(CheckoutOrderCommand request, CancellationToken cancellationToken)
         {
             var orderEntity = _mapper.Map<Order>(request);
-           var newOrder= await _orderRepository.AddAsync(orderEntity);
+            var newOrder = await _orderRepository.AddAsync(orderEntity);
             _logger.LogInformation($"Order {newOrder.Id} is successfully created.");
             await SendMail(newOrder);
             return newOrder.Id;
@@ -41,7 +41,7 @@ namespace Ordering.Application.Features.Orders.Commands
 
         private async Task SendMail(Order order)
         {
-            var email = new Email() { To = "himani@gmail.com", Body = $"Order was created.", Subject = "Order was created" };
+            var email = new Email() { To = "himanijain@gmail.com", Body = $"Order was created.", Subject = "Order was created" };
 
             try
             {
